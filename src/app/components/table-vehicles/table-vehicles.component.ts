@@ -25,12 +25,12 @@ export class TableVehiclesComponent implements OnInit {
   itemsPerPage: number = 6; // Number of vehicles per page
   totalPages: number = 0;
   isModalOpen: boolean = false;
-  selectedVehicle: any = {
-
-  };
+  selectedVehicle: any = {};
+  filterPlateValue: string = ''; // Variable para almacenar el valor del input
 
   constructor(private vehicleService: VehicleService, private fb: FormBuilder) {
     this.vehicles = [];
+    this.paginatedVehicles = [...this.vehicles];
     this.formUpdateVehicle = this.fb.group({
       plate: [{ value: this.selectedVehicle.plate, disabled: true }],
       brand: [this.selectedVehicle.brand],
@@ -123,18 +123,54 @@ export class TableVehiclesComponent implements OnInit {
 
   }
 
-  filterPlate(): void { }
+  filterPlate(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const inputElement = event.target as HTMLInputElement;
+      const plate = inputElement.value.trim().toUpperCase(); // Obtiene el valor del input
 
-  filterBrand(): void { }
-
-  orderByModelYear(event: any): void {
-    const orderSelected = event.target.value; // Selected value
-    console.log('Order by year', orderSelected);
+      if (plate === '') {
+        this.paginateVehicles()
+      } else {
+        this.paginatedVehicles = this.vehicles.filter(vehicle =>
+          vehicle.plate.toUpperCase().includes(plate) // Filtrar por coincidencia de placa
+        );
+      }
+    }
   }
 
-  orderByColor(event: any): void {
-    const selectedColor = event.target.value; // Selected value
-    console.log('Show with color:', selectedColor);
+  filterBrand(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const inputElement = event.target as HTMLInputElement;
+      const brand = inputElement.value.trim().toUpperCase(); // Obtiene el valor del input
+
+      if (brand === '') {
+        this.paginateVehicles()
+      } else {
+        this.paginatedVehicles = this.vehicles.filter(vehicle =>
+          vehicle.brand.toUpperCase().includes(brand) // Filtrar por coincidencia de placa
+        );
+      }
+    }
+  }
+
+  orderByModelYear(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'Ascendant') {
+      this.paginatedVehicles.sort((a, b) => a.model_year - b.model_year);
+    } else if (selectedValue === 'Descendant') {
+      this.paginatedVehicles.sort((a, b) => b.model_year - a.model_year);
+    }
+  }
+
+
+  orderByColor(event: Event) {
+    const selectedColor = (event.target as HTMLSelectElement).value;
+
+    if (selectedColor === 'All colors') {
+      this.paginateVehicles()
+    } else {
+      this.paginatedVehicles = this.vehicles.filter(vehicle => vehicle.color === selectedColor);
+    }
   }
 
   // Vehicle paging function
