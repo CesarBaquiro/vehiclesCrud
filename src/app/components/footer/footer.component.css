@@ -1,0 +1,10 @@
+footer {
+    text-align: center;
+    padding: 3rem;
+    background-color: #f8f9fa; /* Color claro */
+  }
+  footer img {
+    display: block;
+    margin: 0 auto;
+  }
+  
