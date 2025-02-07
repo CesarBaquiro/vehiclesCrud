@@ -2,8 +2,9 @@
     <!-- Tabla de vehículos -->
     <div class="container mt-5">
         <h2 class="text-center">Vehicles Information</h2>
+
         <!-- Navbar flotante -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Filters</a>
                 <!-- Botón toggle en versión responsive -->
@@ -13,18 +14,36 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
+                        <!-- Campo para filtrar por placa -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <input type="text" class="form-control" id="filterPlate" placeholder="Filter by Plate"
+                                (click)="filterPlate()">
                         </li>
+                        <!-- Campo para filtrar por marca -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                            <input type="text" class="form-control" id="filterBrand" placeholder="Filter by Brand"
+                                (click)="filterBrand()">
                         </li>
+                        <!-- Selector para ordenar -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
+                            <select class="form-select" id="orderSelect" (click)="orderByModelYear($event)">
+                                <option>Order by model year</option>
+                                <option value="Ascendant">Ascendant</option>
+                                <option value="Descendant">Descendant</option>
+                            </select>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <select class="form-select" id="orderByColor" (click)="orderByColor($event)">
+                                @for(color of availableColors; track color){
+                                <option value={{color}}>
+                                    <label>{{color}}</label>
+                                </option>
+                                }
+                            </select>
                         </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -54,7 +73,7 @@
             </div>
         </div>
 
-
+        <!-- Tabla responsive -->
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
@@ -68,7 +87,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(vehicle of vehicles; track vehicle.plate){
+                    @for(vehicle of paginatedVehicles; track vehicle.plate){
                     <tr>
                         <td>{{vehicle.plate}}</td>
                         <td>{{vehicle.brand}}</td>
@@ -78,10 +97,25 @@
                         <td>{{vehicle.color}}</td>
                     </tr>
                     }
-
                 </tbody>
+
             </table>
+            <!-- Paginación -->
+            <nav aria-label="Page  ">
+                <ul class="pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+                    </li>
+                    @for(page of totalPagesArray; track page){
+                    <li class="page-item" [class.active]="currentPage === page">
+                        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+                    </li>
+                    }
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                        <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-
 </div>
