@@ -25,9 +25,8 @@ export class TableVehiclesComponent implements OnInit {
   itemsPerPage: number = 6; // Number of vehicles per page
   totalPages: number = 0;
   isModalOpen: boolean = false;
-  selectedVehicle: any = {
-
-  };
+  selectedVehicle: any = {};
+  filterPlateValue: string = ''; // Variable para almacenar el valor del input
 
   constructor(private vehicleService: VehicleService, private fb: FormBuilder) {
     this.vehicles = [];
@@ -124,7 +123,21 @@ export class TableVehiclesComponent implements OnInit {
 
   }
 
-  filterPlate(): void { }
+  filterPlate(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const inputElement = event.target as HTMLInputElement;
+      const plate = inputElement.value.trim().toUpperCase(); // Obtiene el valor del input
+
+      if (plate === '') {
+        this.paginateVehicles()
+      } else {
+        this.paginatedVehicles = this.vehicles.filter(vehicle =>
+          vehicle.plate.toUpperCase().includes(plate) // Filtrar por coincidencia de placa
+        );
+      }
+    }
+  }
+
 
   filterBrand(): void { }
 

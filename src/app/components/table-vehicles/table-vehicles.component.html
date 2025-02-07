@@ -17,7 +17,7 @@
                         <!-- Campo para filtrar por placa -->
                         <li class="nav-item">
                             <input type="text" class="form-control" id="filterPlate" placeholder="Filter by Plate"
-                                (click)="filterPlate()">
+                                (keydown)="filterPlate($event)">
                         </li>
                         <!-- Campo para filtrar por marca -->
                         <li class="nav-item">
@@ -78,6 +78,13 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                    @if(paginateVehicles.length === 0){
+                    <tr>
+                        <td colspan="8" class="text-center">No vehicles found</td>
+                    </tr>
+                    }
+
                     @for(vehicle of paginatedVehicles; track vehicle.plate){
                     <tr>
                         <td>{{vehicle.plate}}</td>
