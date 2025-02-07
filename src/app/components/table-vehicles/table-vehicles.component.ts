@@ -31,6 +31,7 @@ export class TableVehiclesComponent implements OnInit {
 
   constructor(private vehicleService: VehicleService, private fb: FormBuilder) {
     this.vehicles = [];
+    this.paginatedVehicles = [...this.vehicles];
     this.formUpdateVehicle = this.fb.group({
       plate: [{ value: this.selectedVehicle.plate, disabled: true }],
       brand: [this.selectedVehicle.brand],
@@ -137,9 +138,14 @@ export class TableVehiclesComponent implements OnInit {
   }
 
 
-  orderByColor(event: any): void {
-    const selectedColor = event.target.value; // Selected value
-    console.log('Show with color:', selectedColor);
+  orderByColor(event: Event) {
+    const selectedColor = (event.target as HTMLSelectElement).value;
+
+    if (selectedColor === 'All colors') {
+      this.paginateVehicles()
+    } else {
+      this.paginatedVehicles = this.vehicles.filter(vehicle => vehicle.color === selectedColor);
+    }
   }
 
   // Vehicle paging function
