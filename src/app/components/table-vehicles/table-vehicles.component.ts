@@ -138,8 +138,20 @@ export class TableVehiclesComponent implements OnInit {
     }
   }
 
+  filterBrand(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const inputElement = event.target as HTMLInputElement;
+      const brand = inputElement.value.trim().toUpperCase(); // Obtiene el valor del input
 
-  filterBrand(): void { }
+      if (brand === '') {
+        this.paginateVehicles()
+      } else {
+        this.paginatedVehicles = this.vehicles.filter(vehicle =>
+          vehicle.brand.toUpperCase().includes(brand) // Filtrar por coincidencia de placa
+        );
+      }
+    }
+  }
 
   orderByModelYear(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
