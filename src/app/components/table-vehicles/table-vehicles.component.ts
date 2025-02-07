@@ -2,11 +2,12 @@ import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-table-vehicles',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './table-vehicles.component.html',
   styleUrl: './table-vehicles.component.css'
 })
@@ -42,12 +43,11 @@ export class TableVehiclesComponent implements OnInit {
 
   ngOnInit() {
     this.getVehicles();
-
   }
 
   getVehicles(): void {
 
-    this.vehicleService.getVehicles().subscribe(
+    this.vehicleService.getAllVehicles().subscribe(
       data => {
         this.vehicles = data;
         this.totalPages = Math.ceil(this.vehicles.length / this.itemsPerPage);
