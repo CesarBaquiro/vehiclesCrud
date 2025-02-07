@@ -16,5 +16,13 @@ export class VehicleService {
     return this.http.get<any[]>(`${this.API_URL}/get-all-vehicles`);
   }
 
+  updateVehicle(vehicle: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/update-vehicle/${vehicle.plate}`, vehicle);
+  }
+
+  deleteVehicle(plate: string): Observable<any> {
+    return this.http.delete(`${this.API_URL}/delete-vehicle/${plate}`);
+  }
+
 
 }
