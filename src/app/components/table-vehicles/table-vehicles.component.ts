@@ -127,10 +127,15 @@ export class TableVehiclesComponent implements OnInit {
 
   filterBrand(): void { }
 
-  orderByModelYear(event: any): void {
-    const orderSelected = event.target.value; // Selected value
-    console.log('Order by year', orderSelected);
+  orderByModelYear(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'Ascendant') {
+      this.paginatedVehicles.sort((a, b) => a.model_year - b.model_year);
+    } else if (selectedValue === 'Descendant') {
+      this.paginatedVehicles.sort((a, b) => b.model_year - a.model_year);
+    }
   }
+
 
   orderByColor(event: any): void {
     const selectedColor = event.target.value; // Selected value
