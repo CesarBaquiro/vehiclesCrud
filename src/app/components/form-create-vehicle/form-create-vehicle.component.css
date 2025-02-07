@@ -23,3 +23,9 @@
 .container-form input{
     max-width: 600px;
 }
+
+.plate-alert{
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
