@@ -11,9 +11,13 @@ export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
-  // Método para obtener todos los vehículos
-  getVehicles(): Observable<any[]> {
+  // Method to get all vehicles
+  getAllVehicles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/get-all-vehicles`);
+  }
+
+  createNewVehicle(vehicle: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/create-vehicle`, vehicle);
   }
 
   updateVehicle(vehicle: any): Observable<any> {
