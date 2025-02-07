@@ -5,6 +5,9 @@
         <div class="mb-3">
             <label for="plate" class="form-label">Plate</label>
             <input type="text" id="plate" class="form-control" name="plate" formControlName="plate">
+            @if(plateExists){
+            <p class="plate-alert">Plate already exists</p>
+            }
         </div>
         <div class="mb-3">
             <label for="brand" class="form-label">Brand</label>
@@ -26,6 +29,7 @@
         <div class="mb-3">
             <label for="inputState" class="form-label">Color</label>
             <select id="inputState" class="form-select" formControlName="color">
+                <option selected>Choose...</option>
                 @for(color of availableColors; track color){
                 <option>{{color}}</option>
                 }

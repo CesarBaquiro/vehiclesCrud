@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +28,8 @@ export class VehicleService {
     return this.http.delete(`${this.API_URL}/delete-vehicle/${plate}`);
   }
 
+  verifyPlateExists(plate: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/check-plate-exists/${plate}`);
+  }
 
 }
